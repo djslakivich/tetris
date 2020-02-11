@@ -15,8 +15,8 @@ defmodule MyAppWeb.SpaceLive do
         id="Layer_1"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
-        width="200" height="400"
-        viewBox="0 0 200 400"
+        width="500" height="400"
+        viewBox="0 0 500 400"
         xml:space="preserve">
       """
   end
@@ -67,6 +67,10 @@ defmodule MyAppWeb.SpaceLive do
             <%= raw boxes(@tetromino) %>
           <%= raw end_svg %>
         </body>
+        <h2 style="color: white;">
+        Score: <%= @score %>
+        State: <%= @state %>
+        </h2>
       <h2 style="color:white;"><%= inspect(@brick) %></h2>
         <button phx-click="click">Start</button>
        </div>
@@ -137,16 +141,19 @@ defmodule MyAppWeb.SpaceLive do
     |> show
   end
   def do_rotate(socket, :rotate) do
-    assign(socket, brick: socket.assigns.brick |> Tetris.Brick.rotate)
+    assign(socket, brick: socket.assigns.brick |> Tetris.try_attempts(&Tetris.Brick.rotate/1, []))
   end
   def do_move(socket, :left) do
     assign(socket, brick: socket.assigns.brick |> Tetris.try_attempts(&Tetris.Brick.left/1, []))
   end
   def do_move(socket, :right) do
-    assign(socket, brick: socket.assigns.brick |> Tetris.Brick.right)
+    assign(socket, brick: socket.assigns.brick |> Tetris.try_attempts(&Tetris.Brick.right/1, []))
   end
   def do_move(socket, :down) do
-    assign(socket, brick: socket.assigns.brick |> Tetris.Brick.down)
+    assign(socket, brick: socket.assigns.brick |> Tetris.try_attempts(&Tetris.Brick.down/1, []))
+  end
+  def do_move(socket, :up) do
+    assign(socket, brick: socket.assigns.brick |> Tetris.try_attempts(&Tetris.Brick.up/1, []))
   end
 
   def handle_event("keydown", %{"key" => "ArrowRight"}, socket) do
@@ -158,6 +165,9 @@ defmodule MyAppWeb.SpaceLive do
   def handle_event("keydown", %{"key" => "ArrowDown"}, socket) do
     {:noreply, move(:down, socket)}
   end
+  def handle_event("keydown", %{"key" => "ArrowUp"}, socket) do
+    {:noreply, move(:up, socket)}
+  end
   def handle_event("keydown", %{"key" => " "}, socket) do
     {:noreply, rotate(:rotate, socket)}
   end
@@ -165,7 +175,7 @@ defmodule MyAppWeb.SpaceLive do
     {:noreply, socket}
   end
 
-  #template stradgey
+  #template stradgey for tetris
 
   def x({x,y}) do
           (x-1) * @box_width
