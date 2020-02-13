@@ -1,5 +1,5 @@
 defmodule Tetris do
-  alias Tetris.{Bottom, Brick, Points}
+  alias Tetris.{Brick}
 
   def try_attempts(oldbrick, change, _) do
     updated_brick = change.(oldbrick)
@@ -8,7 +8,7 @@ defmodule Tetris do
   end
 
   def in_bounds({x, y}) do
-    x > 1 and x < 10
+    x > 0 and x < 14 and y > 0 and y < 21
   end
 
   def test_points(points, oldbrick, updated_brick) do

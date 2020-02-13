@@ -1,4 +1,5 @@
-defmodule Point do
+defmodule Tetris.Point do
+  alias Tetris.{Bottom, Brick, Points, Plots}
   @grid 4
 
   def rotate(point, 0) do

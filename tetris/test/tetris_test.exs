@@ -50,7 +50,7 @@ defmodule TetrisTest do
     test "checks to see if the brick moved right with no collision/merges" do
       brick = Brick.random_brick(location: {5,1})
       bottom = %{}
-        actual = Tetris.try_right(brick, bottom)
+        actual = Tetris.try_attempts(brick, bottom)
           expected = brick |> Brick.move_right
             assert actual == expected
     end

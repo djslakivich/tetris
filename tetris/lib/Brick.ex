@@ -1,4 +1,5 @@
 defmodule Tetris.Brick do
+  alias Tetris.{Plots, Point}
   @on "[]"
   @off "--"
   @grid 1..4
@@ -49,7 +50,7 @@ defmodule Tetris.Brick do
     |> Tetris.Points.move(brick.location)
   end
   def rotate_four(brick) do
-    # Multiple points
+    # Multiple points, or known as "move to location"
     prepare_points(brick)
       |> Enum.map( fn point ->
         Point.rotate(brick.rotation, point) end)

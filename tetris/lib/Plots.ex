@@ -1,4 +1,4 @@
-defmodule Plots do
+defmodule Tetris.Plots do
   def new_location do
       {1,1}
   end

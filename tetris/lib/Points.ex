@@ -1,4 +1,5 @@
 defmodule Tetris.Points do
+  alias Tetris.{Point}
   def rotate(points, degrees) do
     points
       |> Enum.map( fn point  ->
